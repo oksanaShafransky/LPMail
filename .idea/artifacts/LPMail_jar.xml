@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="LPMail:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/LPMail_jar</output-path>
+    <root id="archive" name="LPMail.jar">
+      <element id="module-output" name="LPMail" />
+      <element id="extracted-dir" path="$USER_HOME$/IdeaProjects/maven_repo/javax/mail/mail/1.5.0-b01/mail-1.5.0-b01.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/IdeaProjects/maven_repo/org/slf4j/slf4j-api/1.8.0-beta2/slf4j-api-1.8.0-beta2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/IdeaProjects/maven_repo/javax/activation/activation/1.1/activation-1.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
