@@ -38,7 +38,7 @@ public class LpMainRunProducer implements Runnable {
 
 
 
-            String filename1 = "/Users/oksanas/Documents/LPMail/src/test/java/resources/pdf1.pdf";
+            /*String filename1 = "/Users/oksanas/Documents/LPMail/src/test/java/resources/pdf1.pdf";
             String filename2 = "/Users/oksanas/Documents/LPMail/src/test/java/resources/txt1.txt";
             String filename3 = "/Users/oksanas/Documents/LPMail/src/test/java/resources/pic1.jpg";
 
@@ -55,7 +55,7 @@ public class LpMainRunProducer implements Runnable {
             LpMail mail3= new LpMail("site12345", "sender3@sender.com",
                     "oksanas@liveperson.com",
                     "filename3", filename3, filename3);
-            lpMailHandler.addToMailQueue(new LpMailOperation(mail3));
+            lpMailHandler.addToMailQueue(new LpMailOperation(mail3));*/
 
             Thread.sleep(5000);
             System.out.println("SUCCESS monitor = " + lpMailHandler.getSuccessMonitor());

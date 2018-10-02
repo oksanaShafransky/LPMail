@@ -1,10 +1,15 @@
 package com.mail.operation;
 
 
+import com.mail.LPMailGUI.LPMailGUI;
 import com.mail.com.mail.utils.LpMailStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.util.concurrent.*;
 
 /**
@@ -49,22 +54,19 @@ public class LpMailHandler extends Thread {
         System.out.println("LpMailHandler is running");
         threadPool = Executors.newFixedThreadPool(MAX_CONCURRENT_MAILS);
         FutureExecutor futureExecutor = new FutureExecutor(threadPool);
+        LPMailGUI.createAndShowGUI();
         try {
             //loop never ends, listening to queue
             while (true) {
                 try {
-                    LpMailOperation mailOperation = null;
-
-                    synchronized (mailQueue) {
-                        System.out.println("Going to check is there are new mails to send...");
-                        if (!mailQueue.isEmpty()) {
-                            mailOperation = mailQueue.take();
-                            ListenableFuture<LpMailStatus> future = futureExecutor.submit(mailOperation);
-                            future.addCallback(new SendMailResultHandler(mailOperation));
-                        } else {
-                            System.out.println("No mails, going to sleep...");
-                            sleep(1000);
-                        }
+                    System.out.println("Going to check is there are new mails to send...");
+                    if (!mailQueue.isEmpty()) {
+                        LpMailOperation mailOperation = mailQueue.take();
+                        ListenableFuture<LpMailStatus> future = futureExecutor.submit(mailOperation);
+                        future.addCallback(new SendMailResultHandler(mailOperation));
+                    } else {
+                        System.out.println("No mails, going to sleep...");
+                        sleep(1000);
                     }
                 } catch (InterruptedException e) {
                     System.out.println("Interrupted Exception happened on while loop");
