@@ -3,6 +3,7 @@ package com.mail.operation;
 
 import com.mail.LPMailGUI.LPMailGUI;
 import com.mail.com.mail.utils.LpMailStatus;
+import com.mail.dao.SaveMailsDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,6 +55,7 @@ public class LpMailHandler extends Thread {
         System.out.println("LpMailHandler is running");
         threadPool = Executors.newFixedThreadPool(MAX_CONCURRENT_MAILS);
         FutureExecutor futureExecutor = new FutureExecutor(threadPool);
+        SaveMailsDao saveMailsDao = SaveMailsDao.getInstance();
         LPMailGUI.createAndShowGUI();
         try {
             //loop never ends, listening to queue
@@ -104,6 +106,7 @@ public class LpMailHandler extends Thread {
         public void onSuccess(LpMailStatus result) {
             successMonitor = successMonitor + 1;
             System.out.println("SUCCESS: The mail was sent successfully to " + mailOperation.getLpMail().getRecipientEmail() + " from " + mailOperation.getLpMail().getSenderEmail());
+            SaveMailsDao.saveToMongoDb(mailOperation.getLpMail(), LpMailStatus.SUCCESS);
         }
 
         @Override
@@ -117,6 +120,7 @@ public class LpMailHandler extends Thread {
             } else {
                 System.out.println("FAILURE: Max number of retries was reached, giving up...");
             }
+            SaveMailsDao.saveToMongoDb(mailOperation.getLpMail(), LpMailStatus.SUCCESS);
             //failure.printStackTrace();
         }
     }

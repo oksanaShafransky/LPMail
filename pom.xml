@@ -40,6 +40,12 @@
             <version>RELEASE</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver</artifactId>
+            <version>3.4.3</version>
+        </dependency>
+
     </dependencies>
 
 

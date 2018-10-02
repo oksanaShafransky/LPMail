@@ -1,5 +1,6 @@
 package com.mail.LPMailGUI;
 
+import com.mail.dao.SaveMailsDao;
 import com.mail.operation.LpMailHandler;
 import com.mail.operation.LpMailOperation;
 import com.mail.structure.LpMail;
@@ -13,6 +14,7 @@ import java.awt.event.KeyEvent;
 public class LPMailGUI extends JPanel implements ActionListener {
     private JButton closeButton;
     private JButton sendMail;
+    private JButton verifyMail;
     private JFormattedTextField sendTo;
     private static JFrame frame;
     private static LpMailHandler lpMailHandler;
@@ -30,6 +32,10 @@ public class LPMailGUI extends JPanel implements ActionListener {
                     sendTo.getText().trim(),
                     "gui_filename", filename1, filename1);
             lpMailHandler.addToMailQueue(new LpMailOperation(mail1));
+        } if("verify".equals(e.getActionCommand())) {
+            LpMail mail1= new LpMail("site12345", "gui_sender@sender.com",
+                    sendTo.getText().trim(), "gui_filename", "");
+            SaveMailsDao.getInstance().verifyDBEntryExists(mail1);
         }
     }
 
@@ -38,7 +44,7 @@ public class LPMailGUI extends JPanel implements ActionListener {
         sendMail = new JButton("send", sendIcon);
         sendMail.setVerticalTextPosition(AbstractButton.CENTER);
         sendMail.setHorizontalTextPosition(AbstractButton.LEADING); //aka LEFT, for left-to-right locales
-        sendMail.setMnemonic(KeyEvent.VK_D);
+        sendMail.setMnemonic(KeyEvent.VK_S);
         sendMail.setActionCommand("send");
         sendMail.setToolTipText("Click this button to send a mail.");
         sendMail.addActionListener(this);
@@ -49,15 +55,24 @@ public class LPMailGUI extends JPanel implements ActionListener {
         sendTo.setColumns(20);
         add(sendTo);
 
+        verifyMail = new JButton("Verify");
+        verifyMail.setVerticalTextPosition(AbstractButton.BOTTOM);
+        verifyMail.setHorizontalTextPosition(AbstractButton.LEADING); //aka LEFT, for left-to-right locales
+        verifyMail.setActionCommand("verify");
+        verifyMail.setToolTipText("Click this button to verify the mail");
+        verifyMail.addActionListener(this);
+        add(verifyMail);
+
         ImageIcon closeIcon  = createImageIcon("/Users/oksanas/Documents/LPMail/src/main/java/com/mail/LPMailGUI/icons/closeIcon.jpeg");
         closeButton = new JButton("Close", closeIcon);
         closeButton.setVerticalTextPosition(AbstractButton.BOTTOM);
         closeButton.setHorizontalTextPosition(AbstractButton.LEADING); //aka LEFT, for left-to-right locales
-        closeButton.setMnemonic(KeyEvent.VK_D);
         closeButton.setActionCommand("close");
         closeButton.setToolTipText("Click this button to disable the middle button.");
         closeButton.addActionListener(this);
         add(closeButton);
+
+
     }
 
     protected static ImageIcon createImageIcon(String path) {
